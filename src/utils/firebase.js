@@ -49,6 +49,7 @@ function setUser(user){
     email: user.email,
     photoURL: user.photoURL,
     createdAt: new Date(),
+    verified: false,
     follows: []
   });
 }
@@ -111,6 +112,11 @@ async function getUserName(uid){
   return user.data().displayName;
 }
 
+async function getUser(uid){
+  const user = await getDoc(doc(db, "users", uid));
+  return user.data();
+}
+
 async function follow_unfollow(uid){
   const user = await getDoc(doc(db, "users", auth.currentUser.uid));
   const follows = user.data().follows;
@@ -146,6 +152,24 @@ async function getFollowers(){
   return followersUIDs;
 }
 
+//Get followers number of a user
+async function getFollowersNumber(uid){
+  const followers = query(collection(db, "users"), where("follows", "array-contains", uid));
+  const followersSnapshot = await getDocs(followers);
+  return followersSnapshot.docs.length;
+}
+
+async function changePhotoURL(photoURL){
+  const user = auth.currentUser;
+    // Update successful
+    // Change it in the database
+    setDoc(doc(db, "users", user.uid), {
+      photoURL: photoURL
+    }, {merge: true});
+    return 0;
+    
+}
+
 export { analytics, auth, googleAuthProvider, signInWithGoogle, getPosts, handleLike, 
-  getPost, addPost, getUserName, follow_unfollow, getFollows, getFollowers };
+  getPost, addPost, getUserName, follow_unfollow, getFollows, getFollowers, getUser, getFollowersNumber, changePhotoURL};
 

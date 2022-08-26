@@ -13,13 +13,14 @@ import {
 import Login from './Login';
 import Home from './Home';
 import NewPost from './NewPost';
+import User from './User';
 
 function App() {
 
   return (
     <Router>
       <Navigation></Navigation>
-      <Routes>
+      <Routes basename="/">
         <Route path="/" element={<Login />}>
         </Route>
 
@@ -28,6 +29,9 @@ function App() {
 
         <Route path="post" element={<NewPost />}>
         </Route>
+
+        <Route path="user/:uid" element={<User />}>
+          </Route>
 
       </Routes>
     </Router>

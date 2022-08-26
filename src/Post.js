@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Button, Card } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import {handleLike, auth, getPost, getUserName, getFollowers} from "./utils/firebase";
-
 
 export default function Post (props) {
 
@@ -40,7 +40,7 @@ export default function Post (props) {
         <Card>
             <Card.Body>
                 <Card.Text>Post ID {props.post.uid}</Card.Text>
-                <Card.Title>{userName}</Card.Title>
+                <Card.Title><Link to={"/user/"+props.post.posted_by}>{userName}</Link></Card.Title>
                 <Card.Text>{followers} followers</Card.Text>
                 <Card.Text>
                     {props.post.text}
